@@ -1,47 +1,47 @@
-ifneq ( true, true)
+ifneq (true, true)
 ifneq ($(strip $(USE_CAMERA_STUB)),true)
 
-LOCAL_PATH:= $(call my-dir)
+LOCAL_PATH := $(call my-dir)
 
 CAMERA_HAL_SRC := \
-	CameraHal_Module.cpp \
-	CameraHal.cpp \
-	CameraHalUtilClasses.cpp \
-	AppCallbackNotifier.cpp \
-	ANativeWindowDisplayAdapter.cpp \
-	CameraProperties.cpp \
-	MemoryManager.cpp \
-	Encoder_libjpeg.cpp \
-	SensorListener.cpp  \
-	NV12_resize.c
+    CameraHal_Module.cpp \
+    CameraHal.cpp \
+    CameraHalUtilClasses.cpp \
+    AppCallbackNotifier.cpp \
+    ANativeWindowDisplayAdapter.cpp \
+    CameraProperties.cpp \
+    MemoryManager.cpp \
+    Encoder_libjpeg.cpp \
+    SensorListener.cpp  \
+    NV12_resize.c
 
-CAMERA_COMMON_SRC:= \
-	CameraParameters.cpp \
-	ExCameraParameters.cpp \
-	CameraHalCommon.cpp
+CAMERA_COMMON_SRC := \
+    CameraParameters.cpp \
+    ExCameraParameters.cpp \
+    CameraHalCommon.cpp
 
-CAMERA_V4L_SRC:= \
-	BaseCameraAdapter.cpp \
-	V4LCameraAdapter/V4LCameraAdapter.cpp
+CAMERA_V4L_SRC := \
+    BaseCameraAdapter.cpp \
+    V4LCameraAdapter/V4LCameraAdapter.cpp
 
-CAMERA_UTILS_SRC:= \
-	utils/ErrorUtils.cpp \
-	utils/MessageQueue.cpp \
-	utils/Semaphore.cpp \
-	utils/util.cpp
+CAMERA_UTILS_SRC := \
+    utils/ErrorUtils.cpp \
+    utils/MessageQueue.cpp \
+    utils/Semaphore.cpp \
+    utils/util.cpp
 
-CAMERA_HAL_VERTURAL_CAMERA_SRC:= \
-	VirtualCamHal.cpp \
-	AppCbNotifier.cpp \
-	V4LCamAdpt.cpp
+CAMERA_HAL_VERTURAL_CAMERA_SRC := \
+    VirtualCamHal.cpp \
+    AppCbNotifier.cpp \
+    V4LCamAdpt.cpp
 
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-	$(CAMERA_HAL_SRC) \
-	$(CAMERA_V4L_SRC) \
-	$(CAMERA_COMMON_SRC) \
-	$(CAMERA_UTILS_SRC)
+LOCAL_SRC_FILES := \
+    $(CAMERA_HAL_SRC) \
+    $(CAMERA_V4L_SRC) \
+    $(CAMERA_COMMON_SRC) \
+    $(CAMERA_UTILS_SRC)
 
 LOCAL_C_INCLUDES += \
     $(LOCAL_PATH)/inc/ \
@@ -55,8 +55,7 @@ LOCAL_C_INCLUDES += \
     hardware/libhardware/modules/gralloc/    \
     frameworks/native/include/media/hardware
 
-
-LOCAL_SHARED_LIBRARIES:= \
+LOCAL_SHARED_LIBRARIES := \
     libui \
     libbinder \
     libutils \
@@ -84,7 +83,7 @@ ifeq ($(BOARD_USE_USB_CAMERA),true)
     LOCAL_CFLAGS += -DAMLOGIC_USB_CAMERA_SUPPORT
 #descrease the number of camera captrue frames,and let skype run smoothly
 ifeq ($(BOARD_USB_CAMREA_DECREASE_FRAMES), true)
-	LOCAL_CFLAGS += -DAMLOGIC_USB_CAMERA_DECREASE_FRAMES
+    LOCAL_CFLAGS += -DAMLOGIC_USB_CAMERA_DECREASE_FRAMES
 endif
 ifeq ($(BOARD_USBCAM_IS_TWOCH),true)
     LOCAL_CFLAGS += -DAMLOGIC_TWO_CH_UVC
@@ -104,15 +103,16 @@ endif
 
 ifeq ($(BOARD_HAVE_VIRTUAL_CAMERA),true)
     LOCAL_CFLAGS += -DAMLOGIC_VIRTUAL_CAMERA_SUPPORT
-    LOCAL_SRC_FILES+= \
-	$(CAMERA_HAL_VERTURAL_CAMERA_SRC)
+    LOCAL_SRC_FILES += \
+        $(CAMERA_HAL_VERTURAL_CAMERA_SRC)
 endif
 
 LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_MODULE:= camera.amlogic
-LOCAL_MODULE_TAGS:= optional
+LOCAL_MODULE := camera.$(TARGET_DEVICE)
+LOCAL_MODULE_TAGS := optional
 
 #include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
 include $(BUILD_SHARED_LIBRARY)
-endif
+
+endif # USE_CAMERA_STUB
 endif

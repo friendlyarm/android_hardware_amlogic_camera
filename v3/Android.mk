@@ -21,7 +21,7 @@ LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_CFLAGS += -fno-short-enums -DQEMU_HARDWARE
 LOCAL_CFLAGS += -Wno-unused-parameter -Wno-missing-field-initializers
 
-########################################################################################################
+#################################################################
 CAMHAL_GIT_VERSION="$(shell cd $(LOCAL_PATH);git log | grep commit -m 1 | cut -d' ' -f 2)"
 CAMHAL_GIT_UNCOMMIT_FILE_NUM=$(shell cd $(LOCAL_PATH);git diff | grep +++ -c)
 CAMHAL_LAST_CHANGED="$(shell cd $(LOCAL_PATH);git log | grep Date -m 1)"
@@ -33,17 +33,17 @@ CAMHAL_HOSTNAME="$(shell hostname)"
 CAMHAL_IP="$(shell ifconfig eth0|grep -oE '([0-9]{1,3}\.?){4}'|head -n 1)"
 CAMHAL_PATH="$(shell pwd)/$(LOCAL_PATH)"
 
-LOCAL_CFLAGS+=-DHAVE_VERSION_INFO
-LOCAL_CFLAGS+=-DCAMHAL_GIT_VERSION=\"${CAMHAL_GIT_VERSION}${CAMHAL_GIT_DIRTY}\"
-LOCAL_CFLAGS+=-DCAMHAL_BRANCH_NAME=\"${CAMHAL_BRANCH_NAME}\"
-LOCAL_CFLAGS+=-DCAMHAL_LAST_CHANGED=\"${CAMHAL_LAST_CHANGED}\"
-LOCAL_CFLAGS+=-DCAMHAL_BUILD_TIME=\"${CAMHAL_BUILD_TIME}\"
-LOCAL_CFLAGS+=-DCAMHAL_BUILD_NAME=\"${CAMHAL_BUILD_NAME}\"
-LOCAL_CFLAGS+=-DCAMHAL_GIT_UNCOMMIT_FILE_NUM=${CAMHAL_GIT_UNCOMMIT_FILE_NUM}
-LOCAL_CFLAGS+=-DCAMHAL_HOSTNAME=\"${CAMHAL_HOSTNAME}\"
-LOCAL_CFLAGS+=-DCAMHAL_IP=\"${CAMHAL_IP}\"
-LOCAL_CFLAGS+=-DCAMHAL_PATH=\"${CAMHAL_PATH}\"
-########################################################################################################
+LOCAL_CFLAGS += -DHAVE_VERSION_INFO
+LOCAL_CFLAGS += -DCAMHAL_GIT_VERSION=\"${CAMHAL_GIT_VERSION}${CAMHAL_GIT_DIRTY}\"
+LOCAL_CFLAGS += -DCAMHAL_BRANCH_NAME=\"${CAMHAL_BRANCH_NAME}\"
+LOCAL_CFLAGS += -DCAMHAL_LAST_CHANGED=\"${CAMHAL_LAST_CHANGED}\"
+LOCAL_CFLAGS += -DCAMHAL_BUILD_TIME=\"${CAMHAL_BUILD_TIME}\"
+LOCAL_CFLAGS += -DCAMHAL_BUILD_NAME=\"${CAMHAL_BUILD_NAME}\"
+LOCAL_CFLAGS += -DCAMHAL_GIT_UNCOMMIT_FILE_NUM=${CAMHAL_GIT_UNCOMMIT_FILE_NUM}
+LOCAL_CFLAGS += -DCAMHAL_HOSTNAME=\"${CAMHAL_HOSTNAME}\"
+LOCAL_CFLAGS += -DCAMHAL_IP=\"${CAMHAL_IP}\"
+LOCAL_CFLAGS += -DCAMHAL_PATH=\"${CAMHAL_PATH}\"
+#################################################################
 
 LOCAL_SHARED_LIBRARIES:= \
     libbinder \
@@ -64,7 +64,7 @@ LOCAL_SHARED_LIBRARIES += \
     libcamera_metadata
 
 LOCAL_STATIC_LIBRARIES := \
-                         libyuv_static \
+    libyuv_static \
 
 MESON_GRALLOC_DIR ?= hardware/amlogic/gralloc
 
@@ -85,33 +85,33 @@ LOCAL_SRC_FILES := \
     EmulatedCameraHotplugThread.cpp \
     EmulatedBaseCamera.cpp \
     EmulatedCamera.cpp \
-        EmulatedCameraDevice.cpp \
-        EmulatedQemuCamera.cpp \
-        EmulatedQemuCameraDevice.cpp \
-        EmulatedFakeCamera.cpp \
-        EmulatedFakeCameraDevice.cpp \
-        Converters.cpp \
-        PreviewWindow.cpp \
-        CallbackNotifier.cpp \
-        QemuClient.cpp \
-        JpegCompressor.cpp \
-        fake-pipeline2/Scene.cpp \
-        fake-pipeline2/Sensor.cpp \
-        fake-pipeline2/ge2d_stream.cpp \
-        fake-pipeline2/JpegCompressor.cpp \
-        fake-pipeline2/NV12_resize.c \
-        fake-pipeline2/util.c \
+    EmulatedCameraDevice.cpp \
+    EmulatedQemuCamera.cpp \
+    EmulatedQemuCameraDevice.cpp \
+    EmulatedFakeCamera.cpp \
+    EmulatedFakeCameraDevice.cpp \
+    Converters.cpp \
+    PreviewWindow.cpp \
+    CallbackNotifier.cpp \
+    QemuClient.cpp \
+    JpegCompressor.cpp \
+    fake-pipeline2/Scene.cpp \
+    fake-pipeline2/Sensor.cpp \
+    fake-pipeline2/ge2d_stream.cpp \
+    fake-pipeline2/JpegCompressor.cpp \
+    fake-pipeline2/NV12_resize.c \
+    fake-pipeline2/util.c \
     EmulatedCamera3.cpp \
-        EmulatedFakeCamera3.cpp \
-        EmulatedFakeCamera3Info.cpp \
-        fake-pipeline2/camera_hw.cpp \
-        VendorTags.cpp \
-        LoadXml.cpp \
+    EmulatedFakeCamera3.cpp \
+    EmulatedFakeCamera3Info.cpp \
+    fake-pipeline2/camera_hw.cpp \
+    VendorTags.cpp \
+    LoadXml.cpp \
 
 ifeq ($(TARGET_PRODUCT),vbox_x86)
 LOCAL_MODULE := camera.vbox_x86
 else
-LOCAL_MODULE:= camera.amlogic
+LOCAL_MODULE:= camera.$(TARGET_DEVICE)
 endif
 
 include $(BUILD_SHARED_LIBRARY)
